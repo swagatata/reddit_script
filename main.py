@@ -23,7 +23,7 @@ def main():
     me = reddit.user.me()
     comments = me.comments.controversial(limit=100)
     for comment in comments:
-        if (comment.ups < 0):
+        if (comment.ups <= 0):
             print(comment.body)
             print(comment.ups)
             print(comment.subreddit)
