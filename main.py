@@ -1,15 +1,24 @@
 import praw
+from pykeepass import PyKeePass
 
 import time
+import getpass
 
 
 def create_reddit():
+    keypass_pswd = getpass.getpass(
+        prompt='Enter keypass password : ', stream=None)
+    kp = PyKeePass('/Users/konchada/scripts.kdbx', password=keypass_pswd)
+    client_key_entry = kp.find_entries(
+        title='reddit_client_key', first=True)
+    entry = kp.find_entries(title='reddit_username_password', first=True)
+    print('Finished fetching entries from keypass...')
     return praw.Reddit(
-        client_id="client_id",
-        client_secret="client_secret",
-        password="password",
-        user_agent="testscript by u/user_agent",
-        username="username",
+        client_id=client_key_entry.username,
+        client_secret=client_key_entry.password,
+        password=entry.password,
+        user_agent="testscript",
+        username=entry.username,
     )
 
 
